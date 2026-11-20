@@ -1,0 +1,16 @@
+{
+  "name": "Solu. Tareas",
+  "short_name": "Tareas",
+  "description": "Seguimiento de tareas de trabajo — Solucionet",
+  "start_url": "./?go=1",
+  "scope": "./",
+  "display": "browser",
+  "background_color": "#0c151e",
+  "theme_color": "#0c151e",
+  "lang": "es",
+  "icons": [
+    { "src": "icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
+    { "src": "icon-maskable-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+  ]
+}

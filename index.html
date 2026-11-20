@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Solu. Tareas</title>
+
+  <!-- Ícono de pantalla de inicio -->
+  <link rel="apple-touch-icon" href="apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png">
+  <link rel="manifest" href="manifest.webmanifest">
+  <meta name="apple-mobile-web-app-title" content="Tareas">
+  <meta name="theme-color" content="#0c151e">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@200;400;700&display=swap" rel="stylesheet">
+
+  <script>
+    /* =====================================================================
+     *  ÚNICO DATO A COMPLETAR: la URL /exec de la implementación de la app
+     *  (Apps Script → Implementar → Gestionar implementaciones → URL de la app web).
+     * ===================================================================== */
+    const APP_URL = 'PEGAR_AQUI_LA_URL_EXEC';
+
+    (function () {
+      const configured = /^https:\/\/script\.google\.com\/.+\/exec$/.test(APP_URL);
+      const params = new URLSearchParams(location.search);
+
+      // Abierto desde el ícono de pantalla de inicio → directo a la app.
+      if (configured && params.has('go')) {
+        location.replace(APP_URL);
+        return;
+      }
+      // Abierto desde el link: dejamos ?go=1 en la barra de direcciones (sin recargar)
+      // para que iPhone guarde esa URL al "Agregar a pantalla de inicio".
+      if (configured && !params.has('go')) {
+        history.replaceState(null, '', location.pathname + '?go=1');
+      }
+      window.__SOLU_CONFIGURED__ = configured;
+    })();
+  </script>
+
+  <style>
+    :root { --navy:#0c151e; --navy-2:#141e28; --blue:#00a1ea; --sky:#5ad8fa; --muted:#aab6c2; }
+    * { box-sizing: border-box; }
+    html, body { margin: 0; min-height: 100%; }
+    body {
+      font-family: 'Hanken Grotesk', system-ui, -apple-system, 'Segoe UI', Arial, sans-serif;
+      background: var(--navy); color: #f5f0e8; -webkit-font-smoothing: antialiased;
+      padding: calc(env(safe-area-inset-top, 0px) + 32px) 24px calc(env(safe-area-inset-bottom, 0px) + 32px);
+      display: flex; justify-content: center;
+    }
+    main { width: 100%; max-width: 440px; }
+    .brand { font-weight: 700; font-size: 18px; color: #fff; }
+    .brand b { color: var(--sky); }
+    .icon { width: 88px; height: 88px; border-radius: 22px; margin: 40px 0 24px; display: block; }
+    h1 { margin: 0; font-size: 38px; line-height: 1.05; font-weight: 200; letter-spacing: -.02em; color: #fff; }
+    h1 strong { font-weight: 700; }
+    p { color: var(--muted); line-height: 1.5; margin: 14px 0 0; }
+    .btn { display: block; text-align: center; margin-top: 28px; background: var(--blue); color: #fff; text-decoration: none; font-weight: 700; padding: 15px 18px; border-radius: 14px 14px 14px 5px; font-size: 16px; }
+    .btn:focus-visible { outline: 2px solid var(--sky); outline-offset: 3px; }
+    .card { background: var(--navy-2); border-radius: 18px 18px 18px 6px; padding: 16px 18px; margin-top: 28px; }
+    .card h2 { margin: 0 0 8px; font-size: 15px; color: #fff; }
+    .card ol { margin: 0; padding-left: 20px; color: var(--muted); line-height: 1.55; font-size: 14.5px; }
+    .card b { color: #fff; }
+    .error { background: #3a1416; color: #ffb3b6; border-radius: 12px; padding: 14px 16px; margin-top: 24px; font-size: 14px; }
+    [hidden] { display: none !important; }
+  </style>
+</head>
+<body>
+  <main>
+    <div class="brand">Solu<b>.</b></div>
+    <img class="icon" src="apple-touch-icon.png" alt="">
+    <h1>Solu. <strong>Tareas.</strong></h1>
+    <p>Agregá esta página a la pantalla de inicio para abrir la app con un toque.</p>
+
+    <a class="btn" id="open" href="#">Abrir Solu. Tareas</a>
+
+    <div class="card" id="ios" hidden>
+      <h2>En iPhone (Safari)</h2>
+      <ol>
+        <li>Tocá <b>Compartir</b> (el cuadrado con la flecha).</li>
+        <li>Elegí <b>Agregar a pantalla de inicio</b>.</li>
+        <li>Tocá <b>Agregar</b>.</li>
+      </ol>
+    </div>
+    <div class="card" id="android" hidden>
+      <h2>En Android (Chrome)</h2>
+      <ol>
+        <li>Tocá el menú <b>⋮</b> arriba a la derecha.</li>
+        <li>Elegí <b>Agregar a pantalla principal</b> o <b>Instalar app</b>.</li>
+        <li>Confirmá.</li>
+      </ol>
+    </div>
+
+    <div class="error" id="error" hidden>Falta configurar la dirección de la app en esta página. Avisale a quien te compartió el link.</div>
+  </main>
+
+  <script>
+    (function () {
+      const open = document.getElementById('open');
+      if (!window.__SOLU_CONFIGURED__) {
+        open.hidden = true;
+        document.getElementById('error').hidden = false;
+        return;
+      }
+      open.href = APP_URL;
+      const ua = navigator.userAgent;
+      if (/iPhone|iPad|iPod/i.test(ua)) document.getElementById('ios').hidden = false;
+      else if (/Android/i.test(ua)) document.getElementById('android').hidden = false;
+    })();
+  </script>
+</body>
+</html>
